@@ -63,7 +63,7 @@ export default function Home() {
   return (
     <div className="min-h-screen bg-gray-50">
       {/* Header */}
-      <header className="bg-white shadow-sm sticky top-0 z-40">
+      <header className="bg-white shadow-sm sticky top-0 z-40" rnd-id="store-header">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4">
           <div className="flex items-center justify-between">
             <div className="flex items-center gap-2">
@@ -73,16 +73,32 @@ export default function Home() {
 
             {/* Desktop Navigation */}
             <nav className="hidden md:flex items-center gap-6">
-              <a href="#" className="text-gray-600 hover:text-orange-600 transition">
+              <a
+                href="#"
+                className="text-gray-600 hover:text-orange-600 transition"
+                rnd-id="nav-home"
+              >
                 Home
               </a>
-              <a href="#products" className="text-gray-600 hover:text-orange-600 transition">
+              <a
+                href="#products"
+                className="text-gray-600 hover:text-orange-600 transition"
+                rnd-id="nav-products"
+              >
                 Products
               </a>
-              <a href="#" className="text-gray-600 hover:text-orange-600 transition">
+              <a
+                href="#"
+                className="text-gray-600 hover:text-orange-600 transition"
+                rnd-id="nav-about"
+              >
                 About
               </a>
-              <a href="#" className="text-gray-600 hover:text-orange-600 transition">
+              <a
+                href="#"
+                className="text-gray-600 hover:text-orange-600 transition"
+                rnd-id="nav-contact"
+              >
                 Contact
               </a>
             </nav>
@@ -95,9 +111,15 @@ export default function Home() {
               <button className="p-2 text-gray-600 hover:text-orange-600 transition hidden sm:block">
                 <User size={20} />
               </button>
-              <button className="p-2 text-gray-600 hover:text-orange-600 transition relative">
+              <button
+                className="p-2 text-gray-600 hover:text-orange-600 transition relative"
+                rnd-id="shopping-cart"
+              >
                 <ShoppingCart size={20} />
-                <span className="absolute -top-1 -right-1 bg-orange-600 text-white text-xs rounded-full w-5 h-5 flex items-center justify-center">
+                <span
+                  className="absolute -top-1 -right-1 bg-orange-600 text-white text-xs rounded-full w-5 h-5 flex items-center justify-center"
+                  rnd-id="cart-count"
+                >
                   0
                 </span>
               </button>
@@ -133,9 +155,12 @@ export default function Home() {
       {/* Hero Section */}
       <section className="bg-gradient-to-r from-orange-600 to-orange-700 text-white py-12 sm:py-16">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-          <h2 className="text-3xl sm:text-4xl font-bold mb-4">Professional Power Tools</h2>
-          <p className="text-lg opacity-90 max-w-2xl mx-auto">
-            High-quality tools for professionals and DIY enthusiasts. Shop our complete selection of drills, saws, grinders, and more.
+          <h2 className="text-3xl sm:text-4xl font-bold mb-4" rnd-id="hero-title">
+            Professional Power Tools
+          </h2>
+          <p className="text-lg opacity-90 max-w-2xl mx-auto" rnd-id="hero-description">
+            High-quality tools for professionals and DIY enthusiasts. Shop our complete selection of
+            drills, saws, grinders, and more.
           </p>
         </div>
       </section>
@@ -160,30 +185,69 @@ export default function Home() {
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8 mb-8">
             <div>
               <h3 className="text-white font-semibold mb-4">About Us</h3>
-              <p className="text-sm">PowerTools Store offers the best selection of professional power tools for every job.</p>
+              <p className="text-sm">
+                PowerTools Store offers the best selection of professional power tools for every
+                job.
+              </p>
             </div>
             <div>
               <h3 className="text-white font-semibold mb-4">Quick Links</h3>
               <ul className="text-sm space-y-2">
-                <li><a href="#" className="hover:text-white transition">Home</a></li>
-                <li><a href="#" className="hover:text-white transition">Products</a></li>
-                <li><a href="#" className="hover:text-white transition">Support</a></li>
+                <li>
+                  <a href="#" className="hover:text-white transition">
+                    Home
+                  </a>
+                </li>
+                <li>
+                  <a href="#" className="hover:text-white transition">
+                    Products
+                  </a>
+                </li>
+                <li>
+                  <a href="#" className="hover:text-white transition">
+                    Support
+                  </a>
+                </li>
               </ul>
             </div>
             <div>
               <h3 className="text-white font-semibold mb-4">Support</h3>
               <ul className="text-sm space-y-2">
-                <li><a href="#" className="hover:text-white transition">Contact Us</a></li>
-                <li><a href="#" className="hover:text-white transition">FAQ</a></li>
-                <li><a href="#" className="hover:text-white transition">Returns</a></li>
+                <li>
+                  <a href="#" className="hover:text-white transition">
+                    Contact Us
+                  </a>
+                </li>
+                <li>
+                  <a href="#" className="hover:text-white transition">
+                    FAQ
+                  </a>
+                </li>
+                <li>
+                  <a href="#" className="hover:text-white transition">
+                    Returns
+                  </a>
+                </li>
               </ul>
             </div>
             <div>
               <h3 className="text-white font-semibold mb-4">Follow Us</h3>
               <ul className="text-sm space-y-2">
-                <li><a href="#" className="hover:text-white transition">Facebook</a></li>
-                <li><a href="#" className="hover:text-white transition">Twitter</a></li>
-                <li><a href="#" className="hover:text-white transition">Instagram</a></li>
+                <li>
+                  <a href="#" className="hover:text-white transition">
+                    Facebook
+                  </a>
+                </li>
+                <li>
+                  <a href="#" className="hover:text-white transition">
+                    Twitter
+                  </a>
+                </li>
+                <li>
+                  <a href="#" className="hover:text-white transition">
+                    Instagram
+                  </a>
+                </li>
               </ul>
             </div>
           </div>

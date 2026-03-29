@@ -54,6 +54,7 @@ The store includes 6 demo products:
 ### Installation
 
 1. Navigate to the project directory:
+
    ```bash
    cd d:\repos\demostore
    ```
@@ -80,9 +81,50 @@ npm run build
 npm run start
 ```
 
-## Testing the Application
+## Automated Tests
 
-### Home Page Features to Test:
+This project includes comprehensive unit and component tests using Jest and React Testing Library.
+
+### Test Structure
+
+```
+tests/
+├── unitTests/           # Unit tests for utility functions
+│   └── formatters.test.ts
+├── componentTests/      # Component tests for React components
+│   ├── ProductCard.test.tsx
+│   └── FormAndNavigation.test.tsx
+└── e2eTests/           # Reserved for E2E tests (Cypress, Playwright, etc.)
+```
+
+### Running Tests
+
+```bash
+# Run all tests
+npm test
+
+# Run tests in watch mode (re-run on file changes)
+npm run test:watch
+
+# Run tests with coverage report
+npm run test:coverage
+```
+
+### Test Coverage
+
+- **Unit Tests**:
+  - Price formatting
+  - Email validation
+  - Card number validation
+  - Total calculation logic
+
+- **Component Tests**:
+  - ProductCard rendering and interactions
+  - Form field input and validation
+  - Navigation and link functionality
+
+## Testing the Application Manually
+
 - Navigation header with responsive menu
 - Hero banner section
 - Product grid layout Responsive design (mobile, tablet, desktop)
@@ -91,6 +133,7 @@ npm run start
 - Footer with links
 
 ### Checkout Page Features to Test:
+
 - Form validation for all fields
 - Shipping address form
 - Payment information form
@@ -101,6 +144,7 @@ npm run start
 ### Test Scenarios:
 
 #### Form Validation Testing
+
 - Test with empty fields
 - Test with invalid email
 - Test with invalid card number
@@ -108,12 +152,14 @@ npm run start
 - Test with incomplete forms
 
 #### Responsive Design Testing
+
 - Test on mobile devices (375px, 480px)
 - Test on tablets (768px)
 - Test on desktop (1024px+)
 - Test menu toggle on mobile
 
 #### Navigation Testing
+
 - Click on "Buy" buttons
 - Navigate to checkout
 - Fill out entire form
@@ -121,6 +167,7 @@ npm run start
 - Return to store
 
 #### Data Flow Testing
+
 - Product selection persists
 - Form data retention
 - LocalStorage for product data
@@ -143,6 +190,7 @@ npm run start
 ## Notes
 
 ⚠️ **This is a demo application for testing purposes:**
+
 - No actual payments are processed
 - No backend server
 - No database
@@ -165,6 +213,11 @@ npm run start
 - `npm run build` - Build for production
 - `npm run start` - Start production server
 - `npm run lint` - Run ESLint
+- `npm run format:check` - Check code formatting with Prettier (reports issues without fixing)
+- `npm run format:fix` - Automatically fix code formatting issues with Prettier
+- `npm test` - Run all tests with Jest
+- `npm run test:watch` - Run tests in watch mode (re-run on file changes)
+- `npm run test:coverage` - Run tests and generate coverage report
 
 ## License
 

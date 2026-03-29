@@ -18,7 +18,10 @@ export default function ProductCard({ id, name, price, image, description }: Pro
   };
 
   return (
-    <div className="bg-white rounded-lg shadow-md overflow-hidden hover:shadow-lg transition-shadow duration-300 flex flex-col">
+    <div
+      className="bg-white rounded-lg shadow-md overflow-hidden hover:shadow-lg transition-shadow duration-300 flex flex-col"
+      rnd-id={`product-card-${name.toLowerCase().replace(/\s+/g, '-')}`}
+    >
       <div className="w-full h-48 bg-gray-100 flex items-center justify-center overflow-hidden relative">
         <Image
           src={image}
@@ -28,19 +31,22 @@ export default function ProductCard({ id, name, price, image, description }: Pro
           sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
         />
       </div>
-      
+
       <div className="p-4 flex flex-col flex-grow">
         <h3 className="text-lg font-semibold text-gray-800 mb-1">{name}</h3>
-        <p className="text-sm text-gray-600 mb-3 flex-grow">{description}</p>
-        
+        <p className="text-sm text-gray-600 mb-3 flex-grow" rnd-id="product-description">
+          {description}
+        </p>
+
         <div className="flex items-center justify-between mt-4">
-          <div className="text-2xl font-bold text-orange-600">
+          <div className="text-2xl font-bold text-orange-600" rnd-id="product-price">
             ${price.toFixed(2)}
           </div>
           <Link
             href="/checkout"
             onClick={handleBuyClick}
             className="bg-orange-600 hover:bg-orange-700 text-white font-semibold py-2 px-4 rounded-lg flex items-center gap-2 transition-colors duration-200"
+            rnd-id="buy-button"
           >
             <ShoppingCart size={18} />
             Buy
