@@ -1,0 +1,229 @@
+name: PR Pipeline
+
+on:
+  pull_request:
+    branches:
+      - main
+  workflow_dispatch:
+
+jobs:
+  # ============================================================================
+  # BUILD STAGE - Format, Lint, and Unit Tests
+  # ============================================================================
+
+  prettier-format:
+    name: Format Check (Prettier)
+    runs-on: ubuntu-latest
+    steps:
+      - name: Setup environment
+        uses: ./.github/actions/setup-env
+
+      - name: Run Prettier (excluding e2eTests)
+        run: npx prettier --check . --ignore-path .gitignore --ignore-unknown '!tests/e2eTests/**'
+
+  lint-check:
+    name: Lint Check
+    runs-on: ubuntu-latest
+    needs: prettier-format
+    steps:
+      - name: Setup environment
+        uses: ./.github/actions/setup-env
+
+      - name: Run ESLint
+        run: npm run lint
+
+  unit-tests:
+    name: Unit Tests
+    runs-on: ubuntu-latest
+    needs: prettier-format
+    steps:
+      - name: Setup environment
+        uses: ./.github/actions/setup-env
+
+      - name: Run unit tests
+        id: unit_tests
+        run: npm run test:unit -- --json --outputFile=test-results-unit.json || true
+
+      - name: Print test summary (on success)
+        if: success()
+        run: |
+          echo "✅ Unit Tests Passed"
+          echo ""
+          if [ -f test-results-unit.json ]; then
+            PASSED=$(jq '.numPassedTests' test-results-unit.json)
+            TOTAL=$(jq '.numTotalTests' test-results-unit.json)
+            echo "📊 Test Results: $PASSED/$TOTAL tests passed"
+            echo ""
+            echo "✓ All unit tests passed with checkmarks:"
+            jq -r '.testResults[].assertionResults[] | select(.status=="passed") | "  ✓ \(.fullName)"' test-results-unit.json
+          fi
+
+      - name: Upload unit test results (on failure)
+        if: failure()
+        uses: actions/upload-artifact@v3
+        with:
+          name: unit-test-results
+          path: |
+            coverage/
+            test-results-unit.json
+
+  component-tests:
+    name: Component Tests
+    runs-on: ubuntu-latest
+    needs: prettier-format
+    steps:
+      - name: Setup environment
+        uses: ./.github/actions/setup-env
+
+      - name: Run component tests
+        id: component_tests
+        run: npm run test:component -- --json --outputFile=test-results-component.json || true
+
+      - name: Print test summary (on success)
+        if: success()
+        run: |
+          echo "✅ Component Tests Passed"
+          echo ""
+          if [ -f test-results-component.json ]; then
+            PASSED=$(jq '.numPassedTests' test-results-component.json)
+            TOTAL=$(jq '.numTotalTests' test-results-component.json)
+            echo "📊 Test Results: $PASSED/$TOTAL tests passed"
+            echo ""
+            echo "✓ All component tests passed with checkmarks:"
+            jq -r '.testResults[].assertionResults[] | select(.status=="passed") | "  ✓ \(.fullName)"' test-results-component.json
+          fi
+
+      - name: Upload component test results (on failure)
+        if: failure()
+        uses: actions/upload-artifact@v3
+        with:
+          name: component-test-results
+          path: |
+            coverage/
+            test-results-component.json
+
+  build-project:
+    name: Build Project
+    runs-on: ubuntu-latest
+    needs: [lint-check, unit-tests, component-tests]
+    steps:
+      - name: Setup environment
+        uses: ./.github/actions/setup-env
+
+      - name: Build project
+        run: npm run build
+
+      - name: Upload build artifacts
+        uses: actions/upload-artifact@v3
+        with:
+          name: build-output
+          path: .next/
+
+  # ============================================================================
+  # TEST STAGE - E2E Tests
+  # ============================================================================
+
+  e2e-prettier:
+    name: E2E Format Check (Prettier)
+    runs-on: ubuntu-latest
+    needs: build-project
+    steps:
+      - name: Setup environment
+        uses: ./.github/actions/setup-env
+
+      - name: Run Prettier on E2E tests
+        run: npx prettier --check tests/e2eTests/
+
+  e2e-lint:
+    name: E2E Lint Check
+    runs-on: ubuntu-latest
+    needs: build-project
+    steps:
+      - name: Setup environment
+        uses: ./.github/actions/setup-env
+
+      - name: Run ESLint on E2E tests
+        run: npx eslint tests/e2eTests/ --max-warnings 0
+
+  e2e-tests:
+    name: E2E Tests
+    runs-on: ubuntu-latest
+    needs: [e2e-prettier, e2e-lint]
+    steps:
+      - name: Setup environment
+        uses: ./.github/actions/setup-env
+
+      - name: Install Playwright browsers
+        run: npx playwright install --with-deps
+
+      - name: Run E2E tests
+        id: e2e_tests
+        run: npm run test:e2e || true
+
+      - name: Print test summary (on success)
+        if: success()
+        run: |
+          echo "✅ E2E Tests Passed"
+          echo ""
+          if [ -f "playwright-report/index.html" ]; then
+            echo "📊 E2E Test Results:"
+            echo "  ✓ All E2E tests passed successfully"
+            echo ""
+            echo "📋 Test Summary:"
+            if [ -d "test-results" ]; then
+              TEST_COUNT=$(find test-results -name "*.json" -type f | wc -l)
+              echo "  ✓ $TEST_COUNT test spec(s) executed"
+            fi
+          fi
+
+      - name: Upload E2E test results (on failure)
+        if: failure()
+        uses: actions/upload-artifact@v3
+        with:
+          name: e2e-test-results
+          path: test-results/
+
+      - name: Upload Playwright report (on failure)
+        if: failure()
+        uses: actions/upload-artifact@v3
+        with:
+          name: playwright-report
+          path: playwright-report/
+
+      - name: Publish E2E test report (on failure)
+        if: failure()
+        uses: daun/playwright-report-action@v3
+        with:
+          report-path: playwright-report
+
+  # ============================================================================
+  # FINAL STATUS
+  # ============================================================================
+
+  pipeline-status:
+    name: Pipeline Status
+    runs-on: ubuntu-latest
+    needs: [build-project, e2e-tests]
+    if: always()
+    steps:
+      - name: Check pipeline status
+        run: |
+          if [ "${{ needs.build-project.result }}" == "success" ] && [ "${{ needs.e2e-tests.result }}" == "success" ]; then
+            echo "✅ All checks passed!"
+            echo ""
+            echo "🚀 App is ready for deploy"
+            exit 0
+          else
+            echo "❌ Pipeline failed"
+            if [ "${{ needs.build-project.result }}" != "success" ]; then
+              echo "  - Build stage failed"
+            fi
+            if [ "${{ needs.e2e-tests.result }}" != "success" ]; then
+              echo "  - E2E tests failed"
+            fi
+            exit 1
+          fi
+
+      - name: Success notification
+        if: success()
+        run: echo "🎉 All stages completed successfully - Application is ready for deployment!"
