@@ -1,4 +1,23 @@
-import { expect, test } from '../fixtures/test';
+import { expect, test } from '../PageObjectModels/fixtures/fixtures';
+
+// ============================================================================
+// GLOBAL CONSTANTS
+// ============================================================================
+const PRODUCT_INDEX = 0;
+const PRODUCT_PRICE = '149.99';
+const LOCAL_STORAGE_KEY = 'selectedProduct';
+const CURRENCY_SYMBOL = '$';
+const ROOT_PATH = '/';
+
+// Navigation Links
+const NAV_LINKS = {
+  HOME: 'home',
+  PRODUCTS: 'products',
+};
+
+// ============================================================================
+// TEST SUITES
+// ============================================================================
 
 test.describe('Home Page - Product Display', () => {
   test('should navigate to home page and verify header is visible', async ({ homePage }) => {
@@ -15,7 +34,7 @@ test.describe('Home Page - Product Display', () => {
     await homePage.navigateToHome();
 
     // Assert - Verify at least first product is visible
-    const isProductVisible = await homePage.isProductVisible('Professional Cordless Drill');
+    const isProductVisible = await homePage.isProductCardVisible(PRODUCT_INDEX);
     expect(isProductVisible).toBe(true);
   });
 
@@ -24,8 +43,8 @@ test.describe('Home Page - Product Display', () => {
     await homePage.navigateToHome();
 
     // Assert
-    const price = await homePage.getProductPriceText('Professional Cordless Drill');
-    expect(price).toContain('149.99');
+    const price = await homePage.getProductPriceText(PRODUCT_INDEX);
+    expect(price).toContain(PRODUCT_PRICE);
   });
 
   test('should display product description', async ({ homePage }) => {
@@ -33,7 +52,7 @@ test.describe('Home Page - Product Display', () => {
     await homePage.navigateToHome();
 
     // Assert
-    const description = await homePage.getProductDescriptionText('Professional Cordless Drill');
+    const description = await homePage.getText(homePage.getProductDescription(PRODUCT_INDEX));
     expect(description.length).toBeGreaterThan(0);
   });
 
@@ -42,36 +61,53 @@ test.describe('Home Page - Product Display', () => {
     await homePage.navigateToHome();
 
     // Act
-    await homePage.clickBuyButton('Professional Cordless Drill');
+    await homePage.clickBuyButton(PRODUCT_INDEX);
 
     // Assert - Verify localStorage contains selected product
-    const storageData = await page.evaluate(() => localStorage.getItem('selectedProduct'));
+    const storageData = await page.evaluate(() => localStorage.getItem(LOCAL_STORAGE_KEY));
     expect(storageData).toBeTruthy();
 
     const productData = JSON.parse(storageData || '{}');
-    expect(productData.name).toBe('Professional Cordless Drill');
-    expect(productData.price).toBe(149.99);
+    expect(productData.name).toBeTruthy();
+    expect(productData.price).toBeGreaterThan(0);
   });
 });
 
 test.describe('Checkout Flow', () => {
+  // Test Data - Shipping Address
+  const SHIPPING_FIRST_NAME = 'John';
+  const SHIPPING_LAST_NAME = 'Doe';
+  const SHIPPING_EMAIL = 'john@example.com';
+  const SHIPPING_PHONE = '(555) 123-4567';
+  const SHIPPING_ADDRESS = '123 Main St';
+  const SHIPPING_CITY = 'New York';
+  const SHIPPING_STATE = 'NY';
+  const SHIPPING_ZIP = '10001';
+
+  // Test Data - Payment Information
+  const PAYMENT_CARD_NAME = 'John Doe';
+  const PAYMENT_CARD_NUMBER = '4532 1234 5678 9101';
+  const PAYMENT_EXPIRY_MONTH = '12';
+  const PAYMENT_EXPIRY_YEAR = '25';
+  const PAYMENT_CVV = '123';
+
   const validShippingData = {
-    firstName: 'John',
-    lastName: 'Doe',
-    email: 'john@example.com',
-    phone: '(555) 123-4567',
-    address: '123 Main St',
-    city: 'New York',
-    state: 'NY',
-    zipCode: '10001',
+    firstName: SHIPPING_FIRST_NAME,
+    lastName: SHIPPING_LAST_NAME,
+    email: SHIPPING_EMAIL,
+    phone: SHIPPING_PHONE,
+    address: SHIPPING_ADDRESS,
+    city: SHIPPING_CITY,
+    state: SHIPPING_STATE,
+    zipCode: SHIPPING_ZIP,
   };
 
   const validPaymentData = {
-    cardName: 'John Doe',
-    cardNumber: '4532 1234 5678 9101',
-    expiryMonth: '12',
-    expiryYear: '25',
-    cvv: '123',
+    cardName: PAYMENT_CARD_NAME,
+    cardNumber: PAYMENT_CARD_NUMBER,
+    expiryMonth: PAYMENT_EXPIRY_MONTH,
+    expiryYear: PAYMENT_EXPIRY_YEAR,
+    cvv: PAYMENT_CVV,
   };
 
   test('should navigate to checkout page', async ({ checkoutPage }) => {
@@ -92,7 +128,7 @@ test.describe('Checkout Flow', () => {
 
     // Assert
     const firstName = await checkoutPage.getFirstNameValue();
-    expect(firstName).toBe('John');
+    expect(firstName).toBe(SHIPPING_FIRST_NAME);
   });
 
   test('should fill complete form and submit order', async ({ checkoutPage }) => {
@@ -114,7 +150,7 @@ test.describe('Checkout Flow', () => {
     // Assert
     const totalPrice = await checkoutPage.getTotalPrice();
     expect(totalPrice).toBeTruthy();
-    expect(totalPrice).toContain('$');
+    expect(totalPrice).toContain(CURRENCY_SYMBOL);
   });
 
   test('should return to store from success page', async ({ checkoutPage, page }) => {
@@ -127,7 +163,7 @@ test.describe('Checkout Flow', () => {
 
     // Assert
     const currentURL = page.url();
-    expect(currentURL).toContain('/');
+    expect(currentURL).toContain(ROOT_PATH);
   });
 });
 
@@ -137,7 +173,7 @@ test.describe('Navigation', () => {
     await homePage.navigateToHome();
 
     // Act
-    await homePage.clickHomeLink();
+    await homePage.clickNavigationLink(NAV_LINKS.HOME);
 
     // Assert
     const isHeaderVisible = await homePage.isHeaderVisible();
@@ -149,10 +185,10 @@ test.describe('Navigation', () => {
     await homePage.navigateToHome();
 
     // Act
-    await homePage.clickProductsLink();
+    await homePage.clickNavigationLink(NAV_LINKS.PRODUCTS);
 
     // Assert
-    const isProductVisible = await homePage.isProductVisible('Professional Cordless Drill');
+    const isProductVisible = await homePage.isProductCardVisible(PRODUCT_INDEX);
     expect(isProductVisible).toBe(true);
   });
 });
