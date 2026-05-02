@@ -19,7 +19,7 @@ jobs:
       - name: Checkout code
         id: checkout
         uses: actions/checkout@v4
-        
+
   # ============================================================================
   # BUILD STAGE - Format, Lint, and Unit Tests
   # ============================================================================
@@ -33,7 +33,7 @@ jobs:
         uses: ./.github/actions/setup-env
 
       - name: Run Prettier (excluding e2eTests)
-        run: npx prettier --check . --ignore-path .gitignore --ignore-unknown '!tests/e2eTests/**'
+        run: npm run pretty:check:build
 
   lint-check:
     name: Lint Check
@@ -44,7 +44,7 @@ jobs:
         uses: ./.github/actions/setup-env
 
       - name: Run ESLint
-        run: npm run lint
+        run: npm run lint:build
 
   unit-tests:
     name: Unit Tests
@@ -146,7 +146,7 @@ jobs:
         uses: ./.github/actions/setup-env
 
       - name: Run Prettier on E2E tests
-        run: npx prettier --check tests/e2eTests/
+        run: npm run pretty:check -- tests/e2eTests/
 
   e2e-lint:
     name: E2E Lint Check
@@ -157,7 +157,7 @@ jobs:
         uses: ./.github/actions/setup-env
 
       - name: Run ESLint on E2E tests
-        run: npx eslint tests/e2eTests/ --max-warnings 0
+        run: npm run lint:e2e
 
   e2e-tests:
     name: E2E Tests
