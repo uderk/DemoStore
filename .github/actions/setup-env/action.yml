@@ -1,12 +1,9 @@
 name: Setup Environment
-description: Checkout code, setup Node.js (from .nvmrc), and install dependencies
+description: Setup Node.js (from .nvmrc) and install dependencies
 
 runs:
   using: composite
   steps:
-    - name: Checkout code
-      uses: actions/checkout@v4
-      
     - name: Setup Node.js
       uses: actions/setup-node@v3
       with:

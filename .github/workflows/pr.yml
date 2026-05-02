@@ -29,6 +29,9 @@ jobs:
     runs-on: ubuntu-latest
     needs: checkout-code
     steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
       - name: Setup environment
         uses: ./.github/actions/setup-env
 
@@ -40,6 +43,9 @@ jobs:
     runs-on: ubuntu-latest
     needs: [checkout-code, prettier-format]
     steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
       - name: Setup environment
         uses: ./.github/actions/setup-env
 
@@ -51,6 +57,9 @@ jobs:
     runs-on: ubuntu-latest
     needs: [checkout-code, prettier-format]
     steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
       - name: Setup environment
         uses: ./.github/actions/setup-env
 
@@ -86,6 +95,9 @@ jobs:
     runs-on: ubuntu-latest
     needs: [checkout-code, prettier-format]
     steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
       - name: Setup environment
         uses: ./.github/actions/setup-env
 
@@ -121,6 +133,9 @@ jobs:
     runs-on: ubuntu-latest
     needs: [checkout-code, lint-check, unit-tests, component-tests]
     steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
       - name: Setup environment
         uses: ./.github/actions/setup-env
 
@@ -142,6 +157,9 @@ jobs:
     runs-on: ubuntu-latest
     needs: build-project
     steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
       - name: Setup environment
         uses: ./.github/actions/setup-env
 
@@ -153,6 +171,9 @@ jobs:
     runs-on: ubuntu-latest
     needs: build-project
     steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
       - name: Setup environment
         uses: ./.github/actions/setup-env
 
@@ -164,6 +185,9 @@ jobs:
     runs-on: ubuntu-latest
     needs: [e2e-prettier, e2e-lint]
     steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
       - name: Setup environment
         uses: ./.github/actions/setup-env
 
