@@ -1,6 +1,25 @@
 import { Locator } from '@playwright/test';
 import { BasePage } from './BasePage';
 
+interface ShippingData {
+  firstName: string;
+  lastName: string;
+  email: string;
+  phone: string;
+  address: string;
+  city: string;
+  state: string;
+  zipCode: string;
+}
+
+interface PaymentData {
+  cardName: string;
+  cardNumber: string;
+  expiryMonth: string;
+  expiryYear: string;
+  cvv: string;
+}
+
 export class CheckoutPage extends BasePage {
   // Form Locators - Shipping Address
   getFirstNameInput(): Locator {
@@ -143,10 +162,7 @@ export class CheckoutPage extends BasePage {
     await this.click(this.getCompleteOrderButton());
   }
 
-  async fillCompleteCheckout(
-    shippingData: Record<string, string>,
-    paymentData: Record<string, string>
-  ): Promise<void> {
+  async fillCompleteCheckout(shippingData: ShippingData, paymentData: PaymentData): Promise<void> {
     await this.fillShippingAddress(shippingData);
     await this.fillPaymentInformation(paymentData);
     await this.completeOrder();
