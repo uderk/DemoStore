@@ -81,7 +81,7 @@ jobs:
             jq -r '.testResults[].assertionResults[] | select(.status=="passed") | "  ✓ \(.fullName)"' test-results-unit.json
           fi
 
-      - name: Upload unit test4results (on failure)
+      - name: Upload unit test results (on failure)
         if: failure()
         uses: actions/upload-artifact@v4
         with:
@@ -117,7 +117,7 @@ jobs:
             echo ""
             echo "✓ All component tests passed with checkmarks:"
             jq -r '.testResults[].assertionResults[] | select(.status=="passed") | "  ✓ \(.fullName)"' test-results-component.json
-          fi4
+          fi
       - name: Upload component test results (on failure)
         if: failure()
         uses: actions/upload-artifact@v4
