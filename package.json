@@ -18,7 +18,10 @@
     "pretty:fix:build": "prettier --write . --ignore-path .gitignore --ignore-unknown '!tests/e2eTests/**'",
     "test": "jest",
     "test:watch": "jest --watch",
-    "test:coverage": "jest --coverage"
+    "test:coverage": "jest --coverage",
+    "test:unit": "jest --testPathPattern=unitTests",
+    "test:component": "jest --testPathPattern=componentTests",
+    "test:e2e": "playwright test"
   },
   "keywords": [],
   "author": "",
