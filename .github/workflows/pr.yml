@@ -227,12 +227,6 @@ jobs:
           name: playwright-report
           path: playwright-report/
 
-      - name: Publish E2E test report (on failure)
-        if: failure()
-        uses: daun/playwright-report-action@v3
-        with:
-          report-path: playwright-report
-
   # ============================================================================
   # FINAL STATUS
   # ============================================================================
