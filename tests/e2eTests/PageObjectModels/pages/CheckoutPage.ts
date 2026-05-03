@@ -143,7 +143,10 @@ export class CheckoutPage extends BasePage {
     await this.click(this.getCompleteOrderButton());
   }
 
-  async fillCompleteCheckout(shippingData: any, paymentData: any): Promise<void> {
+  async fillCompleteCheckout(
+    shippingData: Record<string, string>,
+    paymentData: Record<string, string>
+  ): Promise<void> {
     await this.fillShippingAddress(shippingData);
     await this.fillPaymentInformation(paymentData);
     await this.completeOrder();

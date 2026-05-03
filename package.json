@@ -7,9 +7,9 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "npx eslint . --max-warnings 0",
-    "lint:build": "npx eslint . --ignore-pattern tests/e2eTests --max-warnings 0",
-    "lint:e2e": "npx eslint tests/e2eTests/ --max-warnings 0",
+    "lint": "eslint . --max-warnings=0",
+    "lint:build": "eslint . --ignore-pattern tests/e2eTests --max-warnings=0",
+    "lint:e2e": "eslint tests/e2eTests --max-warnings=0",
     "format:check": "prettier --check .",
     "format:fix": "prettier --write .",
     "pretty:check": "prettier --check . --ignore-path .gitignore --ignore-unknown",
@@ -35,6 +35,7 @@
     "react-dom": "^19.2.4"
   },
   "devDependencies": {
+    "@eslint/js": "^9.0.0",
     "@playwright/test": "^1.58.2",
     "@testing-library/jest-dom": "^6.9.1",
     "@testing-library/react": "^16.3.2",
@@ -44,11 +45,15 @@
     "@types/react": "^19.2.14",
     "@types/react-dom": "^19.2.3",
     "autoprefixer": "^10.4.27",
+    "eslint": "^10.3.0",
+    "eslint-plugin-jsx-a11y": "^6.10.2",
+    "eslint-plugin-react": "^7.37.0",
     "jest": "^30.3.0",
     "jest-environment-jsdom": "^30.3.0",
     "postcss": "^8.5.8",
     "prettier": "^3.8.1",
     "tailwindcss": "^4.2.2",
-    "typescript": "^6.0.2"
+    "typescript": "^6.0.2",
+    "typescript-eslint": "^8.0.0"
   }
 }
