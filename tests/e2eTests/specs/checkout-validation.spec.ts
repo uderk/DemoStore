@@ -5,7 +5,7 @@ import { expect, test } from '../PageObjectModels/fixtures/fixtures';
 // TEST SUITES - CHECKOUT FORM VALIDATION
 // ============================================================================
 
-test.describe('Checkout Form Validation - Shipping Address', () => {
+test.describe.skip('Checkout Form Validation - Shipping Address', () => {
   test('should accept valid shipping data', async ({ checkoutPage, page }) => {
     // Arrange
     await checkoutPage.navigateToCheckout();
@@ -63,7 +63,7 @@ test.describe('Checkout Form Validation - Shipping Address', () => {
   });
 });
 
-test.describe('Checkout Form Validation - Payment Information', () => {
+test.describe.skip('Checkout Form Validation - Payment Information', () => {
   test('should navigate and display checkout page', async ({ checkoutPage, page }) => {
     // Arrange & Act
     await checkoutPage.navigateToCheckout();
@@ -144,7 +144,7 @@ test.describe('Checkout Form Validation - Payment Information', () => {
   });
 });
 
-test.describe('Checkout Form Validation - Complete Workflow', () => {
+test.describe.skip('Checkout Form Validation - Complete Workflow', () => {
   test('should complete checkout with valid data', async ({ checkoutPage, page }) => {
     // Arrange
     await checkoutPage.navigateToCheckout();

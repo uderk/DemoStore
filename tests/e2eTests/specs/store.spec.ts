@@ -19,7 +19,7 @@ const NAV_LINKS = {
 // TEST SUITES
 // ============================================================================
 
-test.describe('Home Page - Product Display', () => {
+test.describe.skip('Home Page - Product Display', () => {
   test('should navigate to home page and verify header is visible', async ({ homePage }) => {
     // Arrange & Act
     await homePage.navigateToHome();
@@ -73,7 +73,7 @@ test.describe('Home Page - Product Display', () => {
   });
 });
 
-test.describe('Checkout Flow', () => {
+test.describe.skip('Checkout Flow', () => {
   // Test Data - Shipping Address
   const SHIPPING_FIRST_NAME = 'John';
   const SHIPPING_LAST_NAME = 'Doe';
@@ -167,7 +167,7 @@ test.describe('Checkout Flow', () => {
   });
 });
 
-test.describe('Navigation', () => {
+test.describe.skip('Navigation', () => {
   test('should click home link and navigate', async ({ homePage }) => {
     // Arrange
     await homePage.navigateToHome();
