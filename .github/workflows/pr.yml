@@ -83,7 +83,7 @@ jobs:
 
       - name: Upload unit test4results (on failure)
         if: failure()
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: unit-test-results
           path: |
@@ -120,7 +120,7 @@ jobs:
           fi4
       - name: Upload component test results (on failure)
         if: failure()
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: component-test-results
           path: |
@@ -142,7 +142,7 @@ jobs:
         run: npm run build
 
       - name: Upload build artifacts
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: build-output
           path: .next/
