@@ -136,7 +136,7 @@ jobs:
         uses: actions/checkout@v4
 
       - name: Setup environment
-        uses: ./.github/actions/setup4env
+        uses: ./.github/actions/setup-env
 
       - name: Build project
         run: npm run build
