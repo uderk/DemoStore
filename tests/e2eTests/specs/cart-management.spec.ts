@@ -86,7 +86,7 @@ test.describe('Cart Management - Add Items', () => {
   });
 });
 
-test.describe.skip('Cart Management - Navigation', () => {
+test.describe('Cart Management - Navigation', () => {
   test('should navigate to checkout from home page', async ({ homePage, page }) => {
     // Arrange
     await homePage.navigateToHome();
@@ -152,7 +152,7 @@ test.describe.skip('Cart Management - Navigation', () => {
   });
 });
 
-test.describe.skip('Cart Management - Checkout with Multiple Items', () => {
+test.describe('Cart Management - Checkout with Multiple Items', () => {
   test('should navigate to checkout with multiple products', async ({
     homePage,
     checkoutPage,
